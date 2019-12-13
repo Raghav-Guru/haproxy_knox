@@ -1,13 +1,15 @@
 ### HA Proxy config for knox LB :
 
 --> Create SSL cert for haproxy :
-```$ sudo openssl genrsa -out /etc/haproxy/haproxy.key 2048
+```
+$ sudo openssl genrsa -out /etc/haproxy/haproxy.key 2048
 $ sudo openssl req -new -key /etc/haproxy/haproxy.key -out /etc/haproxy/haproxy.csr -subj "/C=US/ST=North Carolina/L=Raleigh/O=HWX/OU=Support/CN=${hostname -f}"
 $ sudo openssl x509 -req -days 365 -in /etc/haproxy/haproxy.csr -signkey haproxy.key -out /etc/haproxy/haproxy.crt 
 $ sudo cat haproxy.key haproxy.crt > /etc/haproxy/haproxy.pem
 ```
 --> Configure HA proxy to use ssl certs and port 443 to loadbalance knox hosts with persistent cookie connection:
-```#vi /etc/haproxy/haproxy.cfg
+```
+#vi /etc/haproxy/haproxy.cfg
 global
  log 127.0.0.1 local0 notice
  maxconn 2000
